@@ -10,15 +10,19 @@ export default function SearchBar({ onSearch, onRandom, disabled }) {
   }
 
   return (
-    <form className="d-flex gap-2 mb-4" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Search for a recipe (e.g. chicken, pasta, cake)"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        disabled={disabled}
-      />
+    <form className="search-panel mb-4" onSubmit={handleSubmit}>
+      <div className="search-panel__field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search for a recipe (e.g. chicken, pasta, cake)"
+          aria-label="Search for a recipe"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          disabled={disabled}
+        />
+      </div>
       <button type="submit" className="btn btn-primary" disabled={disabled}>
         Search
       </button>

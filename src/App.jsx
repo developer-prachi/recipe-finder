@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import RecipeCard from './components/RecipeCard';
 import RecipeDetail from './components/RecipeDetail';
+import { SiteBar, SiteFooter } from './components/SiteChrome';
 import { searchMealsByName, getMealById, getRandomMeal } from './utils/mealApi';
 
 // status: 'idle' | 'loading' | 'success' | 'empty' | 'error'
@@ -65,40 +66,53 @@ export default function App() {
   }
 
   return (
-    <div className="container py-5" style={{ maxWidth: '900px' }}>
-      <h1 className="mb-4">Recipe Finder</h1>
+    <>
+      <SiteBar title="Recipe Finder" />
+      <main className="container page">
+        <header className="mb-4">
+          <p className="eyebrow">Powered by TheMealDB</p>
+          <h1 className="page-title">
+            Recipe <em className="accent-em">Finder</em>
+          </h1>
+          <p className="lede mb-0">Search thousands of meals by name, or let &ldquo;Surprise me&rdquo; pick dinner for you.</p>
+        </header>
 
-      {!selectedMeal && <SearchBar onSearch={handleSearch} onRandom={handleRandom} disabled={busy} />}
+        {!selectedMeal && <SearchBar onSearch={handleSearch} onRandom={handleRandom} disabled={busy} />}
 
-      {busy && (
-        <div className="text-center my-4">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading…</span>
+        {busy && (
+          <div className="text-center my-5">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading…</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {selectedMeal && !busy && <RecipeDetail meal={selectedMeal} onBack={handleBack} />}
+        {selectedMeal && !busy && <RecipeDetail meal={selectedMeal} onBack={handleBack} />}
 
-      {!selectedMeal && !busy && status === 'error' && (
-        <div className="alert alert-danger">{errorMessage}</div>
-      )}
+        {!selectedMeal && !busy && status === 'error' && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
 
-      {!selectedMeal && !busy && status === 'empty' && (
-        <div className="alert alert-warning">No recipes found. Try a different search.</div>
-      )}
+        {!selectedMeal && !busy && status === 'empty' && (
+          <div className="alert alert-warning">No recipes found. Try a different search.</div>
+        )}
 
-      {!selectedMeal && !busy && status === 'idle' && meals.length === 0 && (
-        <p className="text-muted">Search for a dish above, or hit "Surprise me" for a random recipe.</p>
-      )}
+        {!selectedMeal && !busy && status === 'idle' && meals.length === 0 && (
+          <div className="hint">
+            <span className="hint__icon" aria-hidden="true">&#127859;</span>
+            <span>Search for a dish above, or hit &ldquo;Surprise me&rdquo; for a random recipe.</span>
+          </div>
+        )}
 
-      {!selectedMeal && !busy && status === 'success' && (
-        <div className="row row-cols-2 row-cols-md-3 g-3">
-          {meals.map((meal) => (
-            <RecipeCard key={meal.idMeal} meal={meal} onSelect={handleSelectMeal} />
-          ))}
-        </div>
-      )}
-    </div>
+        {!selectedMeal && !busy && status === 'success' && (
+          <div className="row row-cols-2 row-cols-md-3 g-3 g-md-4">
+            {meals.map((meal) => (
+              <RecipeCard key={meal.idMeal} meal={meal} onSelect={handleSelectMeal} />
+            ))}
+          </div>
+        )}
+      </main>
+      <SiteFooter repo="recipe-finder" />
+    </>
   );
 }

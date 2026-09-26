@@ -9,35 +9,36 @@ export default function RecipeDetail({ meal, onBack }) {
         &larr; Back to results
       </button>
 
-      <div className="card shadow-sm">
-        <img
-          src={meal.strMealThumb}
-          className="card-img-top"
-          alt={meal.strMeal}
-          style={{ maxHeight: '320px', objectFit: 'cover' }}
-        />
-        <div className="card-body">
-          <h2 className="h4">{meal.strMeal}</h2>
-          <p className="text-muted mb-3">
-            {meal.strCategory}
-            {meal.strArea ? ` — ${meal.strArea} cuisine` : ''}
-          </p>
+      <div className="card shadow-sm overflow-hidden">
+        <img src={meal.strMealThumb} className="recipe-hero" alt={meal.strMeal} />
+        <div className="recipe-detail__body">
+          <div className="d-flex flex-wrap gap-2 mb-2">
+            {meal.strCategory && <span className="tag">{meal.strCategory}</span>}
+            {meal.strArea && <span className="tag">{meal.strArea} cuisine</span>}
+          </div>
+          <h2 className="recipe-detail__title mb-4">{meal.strMeal}</h2>
 
-          <h3 className="h6">Ingredients</h3>
-          <ul>
-            {ingredients.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+          <div className="row g-4">
+            <div className="col-md-5">
+              <h3 className="section-label">Ingredients</h3>
+              <ul className="ingredients">
+                {ingredients.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="col-md-7">
+              <h3 className="section-label">Instructions</h3>
+              <p className="instructions">{meal.strInstructions}</p>
 
-          <h3 className="h6">Instructions</h3>
-          <p style={{ whiteSpace: 'pre-line' }}>{meal.strInstructions}</p>
-
-          {meal.strYoutube && (
-            <a href={meal.strYoutube} target="_blank" rel="noreferrer" className="btn btn-danger">
-              Watch on YouTube
-            </a>
-          )}
+              {meal.strYoutube && (
+                <a href={meal.strYoutube} target="_blank" rel="noreferrer" className="btn btn-video">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5L8 5.5Z" /></svg>
+                  Watch on YouTube
+                </a>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
